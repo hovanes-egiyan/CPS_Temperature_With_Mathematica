@@ -1,0 +1,572 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     20524,        564]
+NotebookOptionsPosition[     18467,        510]
+NotebookOutlinePosition[     18804,        525]
+CellTagsIndexPosition[     18761,        522]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ClearAll", "[", " ", 
+   RowBox[{
+   "eqn", ",", " ", "sol", ",", "\[Alpha]", ",", "kappa", ",", " ", "r", ",", 
+    " ", "\[Phi]", ",", " ", "z", ",", " ", "x", ",", "y", ",", "Temp0", ",", 
+    "rDataMin", ",", "rDataMax", ",", " ", "phiDataMin", ",", " ", 
+    "phiDataMax", ",", " ", "zDataMin", ",", " ", "zDataMax", ",", " ", 
+    "phiMin", ",", " ", "phiMax", ",", " ", "rMin", ",", " ", "rMax", ",", 
+    " ", "zMin", ",", " ", "zMax", ",", " ", "xMin", ",", " ", "xMax", ",", 
+    " ", "yMin", ",", " ", "yMax", ",", " ", "zMin", ",", " ", "zMax", ",", 
+    "L", ",", "Ltri", ",", "hBeamHole", ",", "wBeamHole", ",", "zHotSpot", 
+    ",", "lWedge", ",", "phiMinDeg", ",", " ", "phiMaxDeg", ",", " ", 
+    "rad2deg", ",", " ", "powerDensity3D", ",", " ", 
+    "powerDensityInDegrees3D", ",", " ", "cpsInterFunc", ",", " ", 
+    "mainDomainRegionEQ", ",", " ", "mainDomainRegion", ",", " ", "mainMesh", 
+    ",", " ", "copperBoxRegionEQ", ",", " ", "copperBoxSurfaceEQ", ",", " ", 
+    "missingArcRegionEQ", ",", " ", "missingArcSurfaceEQ", ",", " ", 
+    "missingBeamHoleRegionEQ", ",", " ", "missingBeamHoleSurfaceEQ"}], "]"}], 
+  " ", ";"}]], "Input",ExpressionUUID->"ff62b33a-55ac-465e-9afe-31a399f3567e"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Alpha]", "=", 
+   RowBox[{"0.0005", "/", "4"}]}], ";", 
+  RowBox[{"kappa", "=", "0.00385"}], ";", 
+  RowBox[{"Temp0", "=", "40"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rDataMin", " ", "=", " ", "0.0125"}], ";", " ", 
+  RowBox[{"rDataMax", "=", "5.9875"}], ";", " ", 
+  RowBox[{"phiDataMin", "=", 
+   RowBox[{"-", "3.11978333333"}]}], ";", " ", 
+  RowBox[{"phiDataMax", "=", "3.11978333333"}], ";", " ", 
+  RowBox[{"zDataMin", "=", "0.25"}], ";", " ", 
+  RowBox[{"zDataMax", "=", "93.75"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sideOfCopperSquare", " ", "=", " ", 
+   RowBox[{"2", "*", "8.66"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"phiMin", "=", 
+    RowBox[{"-", "\[Pi]"}]}], ";", " ", 
+   RowBox[{"phiMax", "=", "\[Pi]"}], ";", " ", 
+   RowBox[{"rMin", "=", "0"}], ";", 
+   RowBox[{"rMax", "=", 
+    RowBox[{
+     FractionBox["sideOfCopperSquare", "2"], "*", 
+     RowBox[{"\[Sqrt]", "2"}]}]}], ";", " ", 
+   RowBox[{"zMin", "=", "0"}], ";", " ", 
+   RowBox[{"zMax", "=", "94"}], ";"}], " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"yWedge", "=", "2.0"}], ";", 
+  RowBox[{"lWedge", "=", "3.758770483"}], ";", " ", 
+  RowBox[{"phiWedgeMin", "=", 
+   RowBox[{
+    FractionBox["7", "18"], "*", "\[Pi]"}]}], ";", " ", 
+  RowBox[{"phiWedgeMax", " ", "=", " ", 
+   RowBox[{
+    FractionBox["11", "18"], "*", "\[Pi]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"xMin", " ", "=", " ", 
+   FractionBox[
+    RowBox[{"-", "sideOfCopperSquare"}], "2"]}], ";", " ", 
+  RowBox[{"xMax", " ", "=", 
+   FractionBox["sideOfCopperSquare", "2"]}], ";", " ", 
+  RowBox[{"yMin", " ", "=", " ", 
+   FractionBox[
+    RowBox[{"-", "sideOfCopperSquare"}], "2"]}], ";", " ", 
+  RowBox[{"yMax", " ", "=", 
+   FractionBox["sideOfCopperSquare", "2"]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"L", "=", "zMax"}], ";", 
+  RowBox[{"zHotSpot", "=", "7"}], ";", " ", 
+  RowBox[{"Ltri", "=", "54.0"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"hBeamHole", "=", "1"}], ";", " ", 
+  RowBox[{"wBeamHole", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rad2deg", "=", 
+   RowBox[{"N", "[", 
+    RowBox[{"(", 
+     RowBox[{"180.", "/", "\[Pi]"}], ")"}], "]"}]}], ";", " ", 
+  RowBox[{"phiMinDeg", " ", "=", " ", 
+   RowBox[{"phiMin", " ", "*", " ", "rad2deg"}]}], ";", " ", 
+  RowBox[{"phiMaxDeg", " ", "=", " ", 
+   RowBox[{"phiMax", " ", "*", " ", "rad2deg"}]}], ";"}]}], "Input",Expression\
+UUID->"f2649d36-5e0d-4f6e-a1ff-9c4f37e6102c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"copperBoxRegionEQ", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{"r", "*", 
+          RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+        FractionBox["sideOfCopperSquare", "2"]}], ")"}], "&&", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{"r", "*", 
+          RowBox[{"Cos", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+        FractionBox["sideOfCopperSquare", "2"]}], ")"}]}], ")"}], "&&", " ", 
+    RowBox[{"(", " ", 
+     RowBox[{"rMin", "\[LessEqual]", "r", "\[LessEqual]", "rMax"}], " ", 
+     ")"}], " ", "&&", 
+    RowBox[{"(", " ", 
+     RowBox[{"phiMin", "\[LessEqual]", "\[Phi]", "\[LessEqual]", "phiMax"}], 
+     " ", ")"}], "&&", "  ", 
+    RowBox[{"(", 
+     RowBox[{"zMin", "\[LessEqual]", "z", "\[LessEqual]", "zMax"}], ")"}]}]}],
+   ";"}]], "Input",ExpressionUUID->"7013a42d-19a1-4fd0-8f31-7c29cac59883"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"copperBoxFineRegionEQ", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{"r", "*", 
+          RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+        FractionBox["sideOfCopperSquare", "16"]}], ")"}], "&&", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{"r", "*", 
+          RowBox[{"Cos", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+        FractionBox["sideOfCopperSquare", "16"]}], ")"}]}], ")"}], "&&", " ", 
+    
+    RowBox[{"(", " ", 
+     RowBox[{"rMin", "\[LessEqual]", "r", "\[LessEqual]", "rMax"}], " ", 
+     ")"}], " ", "&&", 
+    RowBox[{"(", " ", 
+     RowBox[{"phiMin", "\[LessEqual]", "\[Phi]", "\[LessEqual]", "phiMax"}], 
+     " ", ")"}], "&&", "  ", 
+    RowBox[{"(", 
+     RowBox[{"zMin", "\[LessEqual]", "z", "\[LessEqual]", "zMax"}], ")"}]}]}],
+   ";"}]], "Input",
+ CellChangeTimes->{{3.892547549541811*^9, 3.892547559927153*^9}, {
+  3.8925476173341703`*^9, 
+  3.892547623854682*^9}},ExpressionUUID->"b05a1101-e6c4-4ec1-b651-\
+59e3401afc0c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"copperBoxCourseRegionEQ", " ", "=", " ", 
+   RowBox[{"copperBoxRegionEQ", " ", "&&", " ", 
+    RowBox[{"(", 
+     RowBox[{"!", "copperBoxFineRegionEQ"}], ")"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.8925476982211027`*^9, 
+  3.892547731053113*^9}},ExpressionUUID->"445487ff-b112-4f69-9c5e-\
+f4969f830c00"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"copperBoxCourseRegion", "=", 
+   RowBox[{"ImplicitRegion", "[", " ", 
+    RowBox[{"copperBoxCourseRegionEQ", ",", 
+     RowBox[{"{", "   ", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"r", ",", "rMin", ",", "rMax"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\[Phi]", ",", "phiMin", ",", "phiMax"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"z", ",", "zMin", ",", "zMax"}], "}"}]}], "  ", "}"}]}], "  ",
+     "]"}]}], " ", ";"}]], "Input",
+ CellChangeTimes->{{3.892547647325268*^9, 3.892547667909917*^9}, {
+  3.8925477450455847`*^9, 
+  3.892547774254047*^9}},ExpressionUUID->"875cda24-5a9f-46bc-8b01-\
+747bc0c9678f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"copperBoxFineRegion", " ", "=", " ", 
+   RowBox[{"ImplicitRegion", "[", " ", 
+    RowBox[{"copperBoxFineRegionEQ", ",", 
+     RowBox[{"{", "   ", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"r", ",", "rMin", ",", "rMax"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\[Phi]", ",", "phiMin", ",", "phiMax"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"z", ",", "zMin", ",", "zMax"}], "}"}]}], "  ", "}"}]}], "  ",
+     "]"}]}], " ", ";"}]], "Input",
+ CellChangeTimes->{{3.892547785908765*^9, 
+  3.892547797037079*^9}},ExpressionUUID->"ddd6d719-a018-4fc1-b1a0-\
+2e4355495246"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"RegionPlot3D", "[", "copperBoxCourseRegion", "]"}], 
+  "*)"}]], "Input",
+ CellChangeTimes->{{3.892547816004574*^9, 3.89254782211615*^9}, {
+  3.8925483727860727`*^9, 
+  3.892548376106925*^9}},ExpressionUUID->"c583131b-b60c-4dd4-82b4-\
+dab1da97e2d1"],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{"RegionPlot3D", "[", "copperBoxFineRegion", "]"}], "*)"}]], "Input",\
+
+ CellChangeTimes->{3.892547846196781*^9, 
+  3.8925483799519978`*^9},ExpressionUUID->"e9364200-0a51-470d-9364-\
+b2c325306494"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"courseMesh", "=", 
+  RowBox[{"ToElementMesh", "[", 
+   RowBox[{"copperBoxCourseRegion", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"rMin", ",", " ", "rMax"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"phiMin", ",", " ", "phiMax"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"zMin", ",", "zMax"}], "}"}]}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.892547991966689*^9, 3.892548011763206*^9}, {
+   3.8925480814517307`*^9, 3.892548081772682*^9}, 
+   3.892548340483777*^9},ExpressionUUID->"ebf54320-ec2a-4a2b-ab2c-\
+9e477c532a85"],
+
+Cell[BoxData[
+ RowBox[{"ToElementMesh", "[", 
+  RowBox[{
+   RowBox[{"ImplicitRegion", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"r", " ", 
+         RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+       "8.66`"}], "&&", 
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{
+         RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", "r"}], "]"}], 
+       "\[LessEqual]", "8.66`"}], "&&", 
+      RowBox[{
+      "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+      RowBox[{
+       RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+       "\[Pi]"}], "&&", 
+      RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}], "&&", 
+      RowBox[{"!", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Abs", "[", 
+           RowBox[{"r", " ", 
+            RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+          "1.0825`"}], "&&", 
+         RowBox[{
+          RowBox[{"Abs", "[", 
+           RowBox[{
+            RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", "r"}], "]"}], 
+          "\[LessEqual]", "1.0825`"}], "&&", 
+         RowBox[{
+         "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+         RowBox[{
+          RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+          "\[Pi]"}], "&&", 
+         RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}]}], ")"}]}], 
+      "&&", 
+      RowBox[{
+      "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+      RowBox[{
+       RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+       "\[Pi]"}], "&&", 
+      RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"r", ",", "\[Phi]", ",", "z"}], "}"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "12.247089450151003`"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "94"}], "}"}]}], "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.892548016702652*^9, 3.8925480833178177`*^9, 
+  3.892548165025878*^9, 3.892548300780923*^9, 
+  3.892548356480535*^9},ExpressionUUID->"0fecc8f0-fd9e-411a-af36-\
+875625b0b134"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"courseMesh", "[", "\"\<Wireframe\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.892548023842938*^9, 3.892548029860166*^9}, {
+  3.892548250202983*^9, 
+  3.892548250650095*^9}},ExpressionUUID->"249db06c-4a85-474b-b0d0-\
+d69c7e2acb04"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ToElementMesh", "[", 
+   RowBox[{
+    RowBox[{"ImplicitRegion", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{"r", " ", 
+          RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+        "8.66`"}], "&&", 
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{
+          RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", "r"}], "]"}], 
+        "\[LessEqual]", "8.66`"}], "&&", 
+       RowBox[{
+       "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+        "\[Pi]"}], "&&", 
+       RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}], "&&", 
+       RowBox[{"!", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Abs", "[", 
+            RowBox[{"r", " ", 
+             RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+           "1.0825`"}], "&&", 
+          RowBox[{
+           RowBox[{"Abs", "[", 
+            RowBox[{
+             RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", "r"}], "]"}], 
+           "\[LessEqual]", "1.0825`"}], "&&", 
+          RowBox[{
+          "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+          RowBox[{
+           RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+           "\[Pi]"}], "&&", 
+          RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}]}], ")"}]}],
+        "&&", 
+       RowBox[{
+       "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+        "\[Pi]"}], "&&", 
+       RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"r", ",", "\[Phi]", ",", "z"}], "}"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "12.247089450151003`"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "94"}], "}"}]}], "}"}]}], "]"}], 
+  "[", "\<\"Wireframe\"\>", "]"}]], "Output",
+ CellChangeTimes->{
+  3.89254803054318*^9, {3.892548086620926*^9, 3.892548113659916*^9}, 
+   3.8925481750336237`*^9, 3.8925482514155893`*^9, 3.892548300865041*^9, 
+   3.892548358805892*^9},ExpressionUUID->"51884ecf-487d-4738-a597-\
+adc42b1bb5fe"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fineMesh", " ", "=", " ", 
+  RowBox[{"ToElementMesh", "[", 
+   RowBox[{"copperBoxFineRegion", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"rMin", ",", " ", "rMax"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"phiMin", ",", " ", "phiMax"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"zMin", ",", "zMax"}], "}"}]}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.892548177362694*^9, 
+  3.8925482000027723`*^9}},ExpressionUUID->"bc87b445-fe2a-4671-a4d9-\
+b9b0be28c3fa"],
+
+Cell[BoxData[
+ RowBox[{"ToElementMesh", "[", 
+  RowBox[{
+   RowBox[{"ImplicitRegion", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"r", " ", 
+         RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+       "1.0825`"}], "&&", 
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{
+         RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", "r"}], "]"}], 
+       "\[LessEqual]", "1.0825`"}], "&&", 
+      RowBox[{
+      "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+      RowBox[{
+       RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+       "\[Pi]"}], "&&", 
+      RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}], "&&", 
+      RowBox[{
+      "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+      RowBox[{
+       RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+       "\[Pi]"}], "&&", 
+      RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"r", ",", "\[Phi]", ",", "z"}], "}"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "12.247089450151003`"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "94"}], "}"}]}], "}"}]}], "]"}]], "Output",
+ CellChangeTimes->{3.892548202026932*^9, 
+  3.892548300970553*^9},ExpressionUUID->"fe28aa45-15a5-4855-bbf0-\
+5ec2d7c966eb"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fineMesh", "[", "\"\<Wireframe\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.892548207018046*^9, 
+  3.8925482276417923`*^9}},ExpressionUUID->"a0a0b07d-8287-4824-805b-\
+3db4c2d956d8"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ToElementMesh", "[", 
+   RowBox[{
+    RowBox[{"ImplicitRegion", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{"r", " ", 
+          RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "]"}], "\[LessEqual]", 
+        "1.0825`"}], "&&", 
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         RowBox[{
+          RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", "r"}], "]"}], 
+        "\[LessEqual]", "1.0825`"}], "&&", 
+       RowBox[{
+       "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+        "\[Pi]"}], "&&", 
+       RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}], "&&", 
+       RowBox[{
+       "0", "\[LessEqual]", "r", "\[LessEqual]", "12.247089450151003`"}], "&&", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], "\[LessEqual]", "\[Phi]", "\[LessEqual]", 
+        "\[Pi]"}], "&&", 
+       RowBox[{"0", "\[LessEqual]", "z", "\[LessEqual]", "94"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"r", ",", "\[Phi]", ",", "z"}], "}"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "12.247089450151003`"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "94"}], "}"}]}], "}"}]}], "]"}], 
+  "[", "\<\"Wireframe\"\>", "]"}]], "Output",
+ CellChangeTimes->{{3.892548216949738*^9, 3.892548228446869*^9}, 
+   3.8925483010475407`*^9},ExpressionUUID->"9df92691-f9f0-4ef0-8cfc-\
+f43e93bd9cd5"]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{229, Automatic}, {Automatic, 125}},
+FrontEndVersion->"11.1 for Linux x86 (64-bit) (March 13, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1251, 19, 107, "Input", "ExpressionUUID" -> \
+"ff62b33a-55ac-465e-9afe-31a399f3567e"],
+Cell[1812, 41, 2554, 65, 302, "Input", "ExpressionUUID" -> \
+"f2649d36-5e0d-4f6e-a1ff-9c4f37e6102c"],
+Cell[4369, 108, 1012, 26, 51, "Input", "ExpressionUUID" -> \
+"7013a42d-19a1-4fd0-8f31-7c29cac59883"],
+Cell[5384, 136, 1145, 31, 51, "Input", "ExpressionUUID" -> \
+"b05a1101-e6c4-4ec1-b651-59e3401afc0c"],
+Cell[6532, 169, 344, 8, 35, "Input", "ExpressionUUID" -> \
+"445487ff-b112-4f69-9c5e-f4969f830c00"],
+Cell[6879, 179, 678, 17, 35, "Input", "ExpressionUUID" -> \
+"875cda24-5a9f-46bc-8b01-747bc0c9678f"],
+Cell[7560, 198, 633, 16, 35, "Input", "ExpressionUUID" -> \
+"ddd6d719-a018-4fc1-b1a0-2e4355495246"],
+Cell[8196, 216, 289, 7, 33, "Input", "ExpressionUUID" -> \
+"c583131b-b60c-4dd4-82b4-dab1da97e2d1"],
+Cell[8488, 225, 236, 6, 33, "Input", "ExpressionUUID" -> \
+"e9364200-0a51-470d-9364-b2c325306494"],
+Cell[CellGroupData[{
+Cell[8749, 235, 611, 15, 35, "Input", "ExpressionUUID" -> \
+"ebf54320-ec2a-4a2b-ab2c-9e477c532a85"],
+Cell[9363, 252, 2329, 62, 81, "Output", "ExpressionUUID" -> \
+"0fecc8f0-fd9e-411a-af36-875625b0b134"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11729, 319, 254, 5, 33, "Input", "ExpressionUUID" -> \
+"249db06c-4a85-474b-b0d0-d69c7e2acb04"],
+Cell[11986, 326, 2485, 65, 81, "Output", "ExpressionUUID" -> \
+"51884ecf-487d-4738-a597-adc42b1bb5fe"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14508, 396, 544, 14, 35, "Input", "ExpressionUUID" -> \
+"bc87b445-fe2a-4671-a4d9-b9b0be28c3fa"],
+Cell[15055, 412, 1520, 41, 59, "Output", "ExpressionUUID" -> \
+"fe28aa45-15a5-4855-bbf0-5ec2d7c966eb"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16612, 458, 205, 4, 33, "Input", "ExpressionUUID" -> \
+"a0a0b07d-8287-4824-805b-3db4c2d956d8"],
+Cell[16820, 464, 1631, 43, 59, "Output", "ExpressionUUID" -> \
+"9df92691-f9f0-4ef0-8cfc-f43e93bd9cd5"]
+}, Open  ]]
+}
+]
+*)
+
